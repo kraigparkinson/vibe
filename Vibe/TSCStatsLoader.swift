@@ -28,7 +28,9 @@ class TSCStatsLoader {
                 var countComplete = 0
                 
                 let dateFormatter = NSDateFormatter()
-                dateFormatter.dateFormat = "EEEE, d MMMM yyyy 'at' HH:mm:ss"
+                dateFormatter.locale = NSLocale.currentLocale()
+                dateFormatter.dateStyle = .FullStyle
+                dateFormatter.timeStyle = .MediumStyle
                 
                 let dateFormatter2 = NSDateFormatter()
                 dateFormatter2.dateFormat = "MMM"

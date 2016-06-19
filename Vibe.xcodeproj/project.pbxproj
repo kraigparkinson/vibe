@@ -302,6 +302,7 @@
 				E996ADE31D15669000A0616E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
