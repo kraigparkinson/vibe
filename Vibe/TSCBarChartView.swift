@@ -83,7 +83,7 @@ class TSCBarChartView: NSView {
             valueLabel.bordered = false
             valueLabel.editable = false
             valueLabel.backgroundColor = NSColor(white: 1, alpha: 0)
-            valueLabel.textColor = calculatedHeight >= 18 ? NSColor(white: 1, alpha: 0.7) : NSColor.grayColor()
+            valueLabel.textColor = calculatedHeight >= 18 ? NSColor(white: 1, alpha: 0.7) : self.barColor
             valueLabel.alignment = .Center
             valueLabel.font = NSFont.systemFontOfSize(10)
             
