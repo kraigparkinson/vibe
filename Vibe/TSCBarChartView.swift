@@ -95,7 +95,12 @@ class TSCBarChartView: NSView {
             labelLabel.alignment = .Center
             labelLabel.usesSingleLineMode = true
             labelLabel.editable = false
-            labelLabel.font = NSFont.systemFontOfSize(11, weight: NSFontWeightSemibold)
+            if #available(OSX 10.11, *) {
+                labelLabel.font = NSFont.systemFontOfSize(11, weight: NSFontWeightSemibold)
+            } else {
+                // Fallback on earlier versions
+                labelLabel.font = NSFont.systemFontOfSize(11);
+            }
             
             let barView = NSView(frame: calculatedFrame)
             barView.backgroundColor = self.barColor
