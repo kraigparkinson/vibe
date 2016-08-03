@@ -12,12 +12,12 @@ extension NSView {
     var backgroundColor: NSColor? {
         get {
             guard let layer = layer, backgroundColor = layer.backgroundColor else { return nil }
-            return NSColor(CGColor: backgroundColor)
+            return NSColor(cgColor: backgroundColor)
         }
         
         set {
             wantsLayer = true
-            layer?.backgroundColor = newValue?.CGColor
+            layer?.backgroundColor = newValue?.cgColor
         }
     }
 }
@@ -59,7 +59,7 @@ class TSCBarChartView: NSView {
         let barHeight = frame.height - barTop
         let barWidth = frame.width / CGFloat(barCount) - 4.0
         
-        let sortedKeys = Array(barData.keys).sort(<)
+        let sortedKeys = Array(barData.keys).sorted(isOrderedBefore: <)
         Swift.print(sortedKeys)
         
         for var label in sortedKeys {
@@ -72,34 +72,34 @@ class TSCBarChartView: NSView {
             }
             
             let calculatedHeight = barHeight * (CGFloat(value) / CGFloat(maxValue))
-            let calculatedFrame = CGRectMake(CGFloat(barOffset) * (barWidth + 4), barTop, barWidth, calculatedHeight)
-            var valueLabelFrame = CGRectMake(CGFloat(barOffset) * (barWidth + 4), barTop, barWidth, calculatedHeight - 2)
+            let calculatedFrame = CGRect(x: CGFloat(barOffset) * (barWidth + 4), y: barTop, width: barWidth, height: calculatedHeight)
+            var valueLabelFrame = CGRect(x: CGFloat(barOffset) * (barWidth + 4), y: barTop, width: barWidth, height: calculatedHeight - 2)
             if(calculatedHeight < 18){
-                valueLabelFrame = CGRectMake(CGFloat(barOffset) * (barWidth + 4), barTop, barWidth, calculatedHeight + 18) // Outside bar
+                valueLabelFrame = CGRect(x: CGFloat(barOffset) * (barWidth + 4), y: barTop, width: barWidth, height: calculatedHeight + 18) // Outside bar
             }
             
             let valueLabel = NSTextField(frame: valueLabelFrame)
             valueLabel.stringValue = String(value)
-            valueLabel.bordered = false
-            valueLabel.editable = false
+            valueLabel.isBordered = false
+            valueLabel.isEditable = false
             valueLabel.backgroundColor = NSColor(white: 1, alpha: 0)
             valueLabel.textColor = calculatedHeight >= 18 ? NSColor(white: 1, alpha: 0.7) : self.barColor
-            valueLabel.alignment = .Center
-            valueLabel.font = NSFont.systemFontOfSize(10)
+            valueLabel.alignment = .center
+            valueLabel.font = NSFont.systemFont(ofSize: 10)
             
-            let labelLabel = NSTextField(frame: CGRectMake(CGFloat(barOffset) * (barWidth + 4) - 3, 0, barWidth + 6, barTop - 3))
+            let labelLabel = NSTextField(frame: CGRect(x: CGFloat(barOffset) * (barWidth + 4) - 3, y: 0, width: barWidth + 6, height: barTop - 3))
             labelLabel.stringValue = String(label)
-            labelLabel.bordered = false
+            labelLabel.isBordered = false
             labelLabel.backgroundColor = NSColor(white: 1, alpha: 0)
             labelLabel.textColor = barColor
-            labelLabel.alignment = .Center
+            labelLabel.alignment = .center
             labelLabel.usesSingleLineMode = true
-            labelLabel.editable = false
+            labelLabel.isEditable = false
             if #available(OSX 10.11, *) {
-                labelLabel.font = NSFont.systemFontOfSize(11, weight: NSFontWeightSemibold)
+                labelLabel.font = NSFont.systemFont(ofSize: 11, weight: NSFontWeightSemibold)
             } else {
                 // Fallback on earlier versions
-                labelLabel.font = NSFont.systemFontOfSize(11);
+                labelLabel.font = NSFont.systemFont(ofSize: 11);
             }
             
             let barView = NSView(frame: calculatedFrame)

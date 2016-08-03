@@ -13,24 +13,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: TSCVibeWindow!
 
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         self.window.titlebarAppearsTransparent = true
-        self.window.movableByWindowBackground = true
-        self.window.styleMask |= NSFullSizeContentViewWindowMask
-        self.window.backgroundColor = NSColor.whiteColor()
+        self.window.isMovableByWindowBackground = true
+        self.window.styleMask = NSFullSizeContentViewWindowMask
+        self.window.backgroundColor = NSColor.white()
         
-        self.window.makeKeyWindow()
-        self.window.makeMainWindow()
+        self.window.makeKey()
+        self.window.makeMain()
     
         self.updateStats()
         
-        NSTimer.scheduledTimerWithTimeInterval(30, target: self, selector: #selector(AppDelegate.updateStats), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(AppDelegate.updateStats), userInfo: nil, repeats: true)
     }
     
     func updateStats() {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        DispatchQueue.global(attributes: DispatchQueue.GlobalAttributes.qosDefault).async {
             let stats = TSCStatsLoader.getStats();
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.window.displayStats(stats);
             }
         }

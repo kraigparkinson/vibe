@@ -18,7 +18,7 @@ class TSCStatsLoader {
         if let scriptObject = NSAppleScript(source: myAppleScript) {
             if let output: NSAppleEventDescriptor = scriptObject.executeAndReturnError(
                 &error) {
-                let dates = output.stringValue!.componentsSeparatedByString("\r");
+                let dates = output.stringValue!.components(separatedBy: "\r");
                 var countsDays:[String:Int] = [:]
                 var countsWeeks:[String:Int] = [:]
                 var countsMonths:[String:Int] = [:]
@@ -27,20 +27,20 @@ class TSCStatsLoader {
                 var countIncomplete = 0
                 var countComplete = 0
                 
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.locale = NSLocale.currentLocale()
-                dateFormatter.dateStyle = .FullStyle
-                dateFormatter.timeStyle = .MediumStyle
+                let dateFormatter = DateFormatter()
+                dateFormatter.locale = Locale.current()
+                dateFormatter.dateStyle = .fullStyle
+                dateFormatter.timeStyle = .mediumStyle
                 
-                let dateFormatter2 = NSDateFormatter()
+                let dateFormatter2 = DateFormatter()
                 dateFormatter2.dateFormat = "MMM"
                 
                 let weekdayNames = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
                 
-                let calendar = NSCalendar.currentCalendar()
+                let calendar = Calendar.current()
             
-                let now = calendar.components([.WeekOfYear, .Day, .Month, .Year], fromDate: NSDate())
-                let nowTime = NSDate().timeIntervalSince1970;
+                let now = calendar.components([.weekOfYear, .day, .month, .year], from: Date())
+                let nowTime = Date().timeIntervalSince1970;
                 
                 var sortableTimes : [Double] = []
                 
@@ -50,23 +50,23 @@ class TSCStatsLoader {
                         continue;
                     }
                     
-                    if let date = dateFormatter.dateFromString(item) {
+                    if let date = dateFormatter.date(from: item) {
                         countComplete += 1;
                         sortableTimes.append(Double(date.timeIntervalSince1970))
                     }
                 }
                 
-                sortableTimes.sortInPlace()
+                sortableTimes.sort()
                 
                 for thenTime in sortableTimes {
-                    let date = NSDate(timeIntervalSince1970: thenTime)
-                    let then = calendar.components([.WeekOfYear, .Weekday, .Day, .Month, .Year], fromDate: date)
+                    let date = Date(timeIntervalSince1970: thenTime)
+                    let then = calendar.components([.weekOfYear, .weekday, .day, .month, .year], from: date)
                     
                     if then.year == now.year {
                         let weekName = "Week \(then.weekOfYear)"
                         countsWeeks[weekName] = (countsWeeks[weekName] ?? 0) + 1
                         
-                        let monthName = "\(then.month)|\(dateFormatter2.stringFromDate(date))"
+                        let monthName = "\(then.month)|\(dateFormatter2.string(from: date))"
                         countsMonths[monthName] = (countsMonths[monthName] ?? 0) + 1
                     }
                     
@@ -75,7 +75,7 @@ class TSCStatsLoader {
                         countsDays[dayName] = (countsDays[dayName] ?? 0) + 1
                     }
                     
-                    let dayOfWeekName = "\(then.weekday)|\(weekdayNames[then.weekday])"
+                    let dayOfWeekName = "\(then.weekday)|\(weekdayNames[then.weekday!])"
                     countsDayOfWeek[dayOfWeekName] = (countsDayOfWeek[dayOfWeekName] ?? 0) + 1
                 }
                 

@@ -19,7 +19,7 @@ class TSCVibeWindow: NSWindow {
     @IBOutlet var titleLabel : NSTextField?;
     @IBOutlet var subtitleLabel : NSTextField?;
     
-    func displayStats(stats: StatsDictionary) {
+    func displayStats(_ stats: StatsDictionary) {
         self.renderWeekGraph(stats);
         self.renderMonthGraph(stats);
         self.renderWeekdayGraph(stats);
@@ -28,25 +28,25 @@ class TSCVibeWindow: NSWindow {
         self.subtitleLabel?.stringValue = "\(stats["totals"]!["incomplete"]!) tasks are currently open."
     }
     
-    internal func renderWeekGraph(stats: StatsDictionary) {
-        let chartView = TSCBarChartView(frame: CGRectMake(0,0,self.weekGraph.frame.width, self.weekGraph.frame.height), barData: stats["days"]!, barColor: NSColor(red:0.60, green:0.55, blue:0.85, alpha:1.00));
-        chartView.autoresizingMask = [.ViewHeightSizable, .ViewWidthSizable];
+    internal func renderWeekGraph(_ stats: StatsDictionary) {
+        let chartView = TSCBarChartView(frame: CGRect(x: 0,y: 0,width: self.weekGraph.frame.width, height: self.weekGraph.frame.height), barData: stats["days"]!, barColor: NSColor(red:0.60, green:0.55, blue:0.85, alpha:1.00));
+        chartView.autoresizingMask = [.viewHeightSizable, .viewWidthSizable];
         chartView.translatesAutoresizingMaskIntoConstraints = true;
         
         self.weekGraph.addSubview(chartView);
     }
     
-    internal func renderMonthGraph(stats: StatsDictionary) {
-        let chartView = TSCBarChartView(frame: CGRectMake(0,0,self.monthGraph.frame.width, self.monthGraph.frame.height), barData: stats["months"]!, barColor: NSColor(red:0.36, green:0.65, blue:0.90, alpha:1.00));
-        chartView.autoresizingMask = [.ViewHeightSizable, .ViewWidthSizable];
+    internal func renderMonthGraph(_ stats: StatsDictionary) {
+        let chartView = TSCBarChartView(frame: CGRect(x: 0,y: 0,width: self.monthGraph.frame.width, height: self.monthGraph.frame.height), barData: stats["months"]!, barColor: NSColor(red:0.36, green:0.65, blue:0.90, alpha:1.00));
+        chartView.autoresizingMask = [.viewHeightSizable, .viewWidthSizable];
         chartView.translatesAutoresizingMaskIntoConstraints = true;
         
         self.monthGraph.addSubview(chartView);
     }
     
-    internal func renderWeekdayGraph(stats: StatsDictionary) {
-        let chartView = TSCBarChartView(frame: CGRectMake(0,0,self.weekdayGraph.frame.width, self.weekdayGraph.frame.height), barData: stats["weekdays"]!, barColor: NSColor(red:0.21, green:0.26, blue:0.33, alpha:1.00));
-        chartView.autoresizingMask = [.ViewHeightSizable, .ViewWidthSizable];
+    internal func renderWeekdayGraph(_ stats: StatsDictionary) {
+        let chartView = TSCBarChartView(frame: CGRect(x: 0,y: 0,width: self.weekdayGraph.frame.width, height: self.weekdayGraph.frame.height), barData: stats["weekdays"]!, barColor: NSColor(red:0.21, green:0.26, blue:0.33, alpha:1.00));
+        chartView.autoresizingMask = [.viewHeightSizable, .viewWidthSizable];
         chartView.translatesAutoresizingMaskIntoConstraints = true;
         
         self.weekdayGraph.addSubview(chartView);
